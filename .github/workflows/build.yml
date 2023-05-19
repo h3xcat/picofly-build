@@ -35,6 +35,9 @@ jobs:
           path: pico-sdk
           submodules: recursive
 
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y gcc-arm-none-eabi libnewlib-arm-none-eabi build-essential
+  
       - name: Set PICO_SDK_PATH
         run: |
           echo "PICO_SDK_PATH=$GITHUB_WORKSPACE/pico-sdk" >> $GITHUB_ENV
@@ -44,31 +47,37 @@ jobs:
           ln -s $PICO_SDK_PATH/external/pico_sdk_import.cmake $GITHUB_WORKSPACE/usk/pico_sdk_import.cmake
           ln -s $PICO_SDK_PATH/external/pico_sdk_import.cmake $GITHUB_WORKSPACE/busk/pico_sdk_import.cmake
 
-      - name: Create 'generated' directory for usk
+      - name: Create 'generated' directory in usk source directory
         run: mkdir -p $GITHUB_WORKSPACE/usk/generated
 
-      - name: Install dependencies
-        run: sudo apt-get update && sudo apt-get install -y gcc-arm-none-eabi libnewlib-arm-none-eabi build-essential
-
+      - name: Build busk
+        run: | 
+          mkdir -p $GITHUB_WORKSPACE/build/busk
+          cd $GITHUB_WORKSPACE/build/busk
+          cmake $GITHUB_WORKSPACE/busk
+          make
+      
       - name: Build usk
         run: | 
-          mkdir build_usk
-          cd ./build_usk
+          mkdir -p $GITHUB_WORKSPACE/build/usk
+          cd $GITHUB_WORKSPACE/build/usk
           cmake $GITHUB_WORKSPACE/usk
           make
-          cd ..
-
+  
       - name: Compress usk build artifacts for release
-        run: zip -r build_usk.zip build_usk
+        run: |
+          cd $GITHUB_WORKSPACE
+          zip -r build.zip build
 
       - name: Generate release tag
         id: tag
         run: |
-          echo "::set-output name=release_tag::UserBuild_$(date +"%Y.%m.%d_%H-%M")"
+          echo "::set-output name=release_tag::PicoFly_$(date +"%Y.%m.%d_%H-%M")"
+    
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ steps.tag.outputs.release_tag }}
-          files: build_usk.zip
+          files: build.zip
 
           
