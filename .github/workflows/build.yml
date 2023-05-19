@@ -45,19 +45,16 @@ jobs:
 
       - name: Set PICO_SDK_PATH
         run: |
-          echo "PICO_SDK_PATH=$PWD/pico-sdk/external" >> $GITHUB_ENV
+          echo "PICO_SDK_PATH=$GITHUB_WORKSPACE/pico-sdk" >> $GITHUB_ENV
 
-      - name: Check PICO_SDK_PATH
+      - name: Create symbolic link to pico_sdk_import.cmake
         run: |
-          echo "PICO_SDK_PATH=$PICO_SDK_PATH"
-          ls -lah "$PICO_SDK_PATH"
+          ln -s $PICO_SDK_PATH/external/pico_sdk_import.cmake $GITHUB_WORKSPACE/usk/pico_sdk_import.cmake
+          ln -s $PICO_SDK_PATH/external/pico_sdk_import.cmake $GITHUB_WORKSPACE/busk/pico_sdk_import.cmake
         
       # - name: Install dependencies
       #   run: sudo apt-get update && sudo apt-get install -y gcc-arm-none-eabi libnewlib-arm-none-eabi build-essential
-      - name: Print pico_sdk_import.cmake
-        run: |
-          cat "$PICO_SDK_PATH/pico_sdk_import.cmake"
-          
+
       - name: Build usk
         run: | 
           mkdir build_usk
