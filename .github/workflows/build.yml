@@ -64,5 +64,14 @@ jobs:
           cd ./build_usk
           cmake $GITHUB_WORKSPACE/usk
           make
+          cd ..
+
+      - name: Compress usk build artifacts for release
+        run: zip -r build_usk.zip build_usk
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: build_usk.zip
 
           
