@@ -39,13 +39,13 @@ jobs:
       - name: Checkout raspberrypi/pico-sdk
         uses: actions/checkout@v3
         with:
-          repository: raspberrypi/pico-sdk/external
+          repository: raspberrypi/pico-sdk
           path: pico-sdk
           submodules: recursive
 
       - name: Set PICO_SDK_PATH
         run: |
-          echo "PICO_SDK_PATH=$PWD/pico-sdk" >> $GITHUB_ENV
+          echo "PICO_SDK_PATH=$PWD/pico-sdk/external" >> $GITHUB_ENV
 
       - name: Check PICO_SDK_PATH
         run: |
