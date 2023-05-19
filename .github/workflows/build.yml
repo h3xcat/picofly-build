@@ -54,10 +54,15 @@ jobs:
         
       # - name: Install dependencies
       #   run: sudo apt-get update && sudo apt-get install -y gcc-arm-none-eabi libnewlib-arm-none-eabi build-essential
-
+      - name: Print pico_sdk_import.cmake
+        run: |
+          cat "$PICO_SDK_PATH/pico_sdk_import.cmake"
+          
       - name: Build usk
         run: | 
           mkdir build_usk
           cd ./build_usk
-          cmake ../usk
+          cmake $GITHUB_WORKSPACE/usk
           make
+
+          
