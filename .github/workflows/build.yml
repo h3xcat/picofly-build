@@ -58,6 +58,7 @@ jobs:
       - name: Build usk
         run: | 
           mkdir build_usk
+          mkdir build_usk/generated
           cd ./build_usk
           cmake $GITHUB_WORKSPACE/usk
           make
