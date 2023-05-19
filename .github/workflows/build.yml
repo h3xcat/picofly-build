@@ -46,10 +46,15 @@ jobs:
       - name: Set PICO_SDK_PATH
         run: export PICO_SDK_PATH=$PWD/pico-sdk
       
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
+      - name: Set PICO_SDK_PATH
+        run: echo "PICO_SDK_PATH=$PWD/pico-sdk" >> $GITHUB_ENV
+      
+      # - name: Install dependencies
+      #   run: sudo apt-get update && sudo apt-get install -y gcc-arm-none-eabi libnewlib-arm-none-eabi build-essential
+
+      - name: Build usk
         run: | 
-          mkdir build
-          cd ./build
+          mkdir build_usk
+          cd ./build_usk
           cmake ../usk
           make
