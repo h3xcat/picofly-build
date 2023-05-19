@@ -81,7 +81,7 @@ jobs:
         with:
           tag_name: ${{ steps.tag.outputs.release_tag }}
           files: |
-            build/usk/firmware.u2f
+            build/usk/firmware.uf2
             build/usk/update.bin
   
 
