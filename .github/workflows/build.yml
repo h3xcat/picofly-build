@@ -36,6 +36,16 @@ jobs:
           repository: rehius/busk
           path: busk
 
+      - name: Checkout raspberrypi/pico-sdk
+        uses: actions/checkout@v3
+        with:
+          repository: raspberrypi/pico-sdk
+          path: pico-sdk
+          submodules: recursive
+
+      - name: Set PICO_SDK_PATH
+        run: export PICO_SDK_PATH=$PWD/pico-sdk
+      
       # Runs a single command using the runners shell
       - name: Run a one-line script
         run: echo Hello, world!
