@@ -69,9 +69,14 @@ jobs:
       - name: Compress usk build artifacts for release
         run: zip -r build_usk.zip build_usk
 
+      - name: Generate release tag
+        id: tag
+        run: |
+          echo "::set-output name=release_tag::UserBuild_$(date +"%Y.%m.%d_%H-%M")"
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
+          tag_name: ${{ steps.tag.outputs.release_tag }}
           files: build_usk.zip
 
           
