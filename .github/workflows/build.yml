@@ -39,7 +39,7 @@ jobs:
       - name: Checkout raspberrypi/pico-sdk
         uses: actions/checkout@v3
         with:
-          repository: raspberrypi/pico-sdk
+          repository: raspberrypi/pico-sdk/external
           path: pico-sdk
           submodules: recursive
 
