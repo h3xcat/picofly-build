@@ -51,14 +51,16 @@ jobs:
         run: |
           ln -s $PICO_SDK_PATH/external/pico_sdk_import.cmake $GITHUB_WORKSPACE/usk/pico_sdk_import.cmake
           ln -s $PICO_SDK_PATH/external/pico_sdk_import.cmake $GITHUB_WORKSPACE/busk/pico_sdk_import.cmake
-        
+
+      - name: Create 'generated' directory for usk
+        run: mkdir -p $GITHUB_WORKSPACE/usk/generated
+
       - name: Install dependencies
         run: sudo apt-get update && sudo apt-get install -y gcc-arm-none-eabi libnewlib-arm-none-eabi build-essential
 
       - name: Build usk
         run: | 
           mkdir build_usk
-          mkdir build_usk/generated
           cd ./build_usk
           cmake $GITHUB_WORKSPACE/usk
           make
