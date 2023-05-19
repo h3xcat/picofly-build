@@ -60,6 +60,7 @@ jobs:
           cd $GITHUB_WORKSPACE/build/busk
           cmake $GITHUB_WORKSPACE/busk
           make
+          cd $GITHUB_WORKSPACE
       
       - name: Build usk
         run: | 
@@ -68,12 +69,8 @@ jobs:
           cmake $GITHUB_WORKSPACE/usk
           make
           python3 $GITHUB_WORKSPACE/usk/prepare.py
-  
-      - name: Compress usk build artifacts for release
-        run: |
           cd $GITHUB_WORKSPACE
-          zip -r build.zip build
-
+  
       - name: Generate release tag
         id: tag
         run: |
@@ -83,6 +80,9 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ steps.tag.outputs.release_tag }}
-          files: build.zip
+          files: |
+            build/usk/firmware.u2f
+            build/usk/update.bin
+  
 
           
