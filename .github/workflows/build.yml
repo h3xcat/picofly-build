@@ -74,8 +74,8 @@ jobs:
       - name: Generate release tag
         id: tag
         run: |
-          echo "::set-output name=release_tag::PicoFly_$(date +"%Y.%m.%d_%H-%M")"
-    
+          echo "release_tag=PicoFly_$(date +"%Y.%m.%d_%H-%M")" >> $GITHUB_OUTPUT
+
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
