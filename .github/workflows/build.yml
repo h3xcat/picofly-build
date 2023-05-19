@@ -36,6 +36,14 @@ jobs:
           path: pico-sdk
           submodules: recursive
 
+      - name: Generate release tag
+        id: tag
+        run: |
+          USK_VERSION=$(sed -n 's/pico_set_program_version(usk "\([0-9.]*\)")/\1/p' $GITHUB_WORKSPACE/usk/CMakeLists.txt)
+          RELEASE_TAG=PicoFly_${USK_VERSION}_$(date +"%Y.%m.%d_%H-%M")
+          echo "release_tag=$RELEASE_TAG" >> $GITHUB_OUTPUT
+          echo "release_tag=$RELEASE_TAG"
+          
       - name: Install dependencies
         run: sudo apt-get update && sudo apt-get install -y gcc-arm-none-eabi libnewlib-arm-none-eabi build-essential
   
@@ -79,11 +87,6 @@ jobs:
           make
           python3 $GITHUB_WORKSPACE/usk/prepare.py
           cd $GITHUB_WORKSPACE
-  
-      - name: Generate release tag
-        id: tag
-        run: |
-          echo "release_tag=PicoFly_$(date +"%Y.%m.%d_%H-%M")" >> $GITHUB_OUTPUT
 
       - name: Release
         uses: softprops/action-gh-release@v1
