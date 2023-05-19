@@ -47,6 +47,10 @@ jobs:
           ln -s $PICO_SDK_PATH/external/pico_sdk_import.cmake $GITHUB_WORKSPACE/usk/pico_sdk_import.cmake
           ln -s $PICO_SDK_PATH/external/pico_sdk_import.cmake $GITHUB_WORKSPACE/busk/pico_sdk_import.cmake
 
+      - name: Create symbolic link of some usk headers in busk
+        run: |
+          ln -s $GITHUB_WORKSPACE/usk/pins.h $GITHUB_WORKSPACE/busk/pins.h
+
       - name: Create 'generated' directory in usk source directory
         run: mkdir -p $GITHUB_WORKSPACE/usk/generated
 
@@ -63,6 +67,7 @@ jobs:
           cd $GITHUB_WORKSPACE/build/usk
           cmake $GITHUB_WORKSPACE/usk
           make
+          python3 $GITHUB_WORKSPACE/usk/prepare.py
   
       - name: Compress usk build artifacts for release
         run: |
